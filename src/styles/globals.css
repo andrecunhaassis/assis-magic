@@ -1,3 +1,106 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.blur-effect {
+  filter: blur(5px);
+}
+
+.floating-button {
+  animation: fadeIn 0.5s, bounce 2.5s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.scrolling-images {
+  display: flex;
+  flex-direction: column;
+  filter: opacity(0.3);
+  height: 200vh;
+}
+
+.scrolling-up {
+  animation: scrollUp 40s linear infinite;
+}
+
+.scrolling-down {
+  animation: scrollDown 40s linear infinite;
+}
+
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes scrollDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes typingEffect {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typingEffect 3s steps(40, end);
+}
+
+.display-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 7s linear;
+}
+
+.display-text {
+  opacity: 0;
+  animation: fadeIn 1s ease-out 3s forwards;
+}
+
+
+.modal-animate {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -36,7 +36,10 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
         aria-hidden="true"
       />
       <div className="fixed inset-0 z-20 flex items-center justify-center m-8">
-        <div ref={modalRef} className='bg-white z-30 p-5 rounded' onClick={e => e.stopPropagation()}>
+        <div 
+          ref={modalRef} 
+          className={`bg-white z-30 p-5 rounded-2xl ${isOpen ? 'modal-animate' : ''}`} 
+          onClick={e => e.stopPropagation()}>
           {children}
         </div>
       </div>

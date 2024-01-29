@@ -1,31 +1,43 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import OpenAI from 'openai';
+import { NextApiRequest, NextApiResponse } from "next";
 
-// Inicialize o cliente OpenAI
-const openai = new OpenAI();
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === 'POST') {
+        const { messages, type, model } = req.body;
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
-    // Tratar apenas requisições POST
-    if (req.method !== 'POST') {
-        res.status(405).json({ message: 'Method not allowed' });
-        return;
+        try {
+            const response = await gptRequest(messages, type, model);
+            res.status(200).json({ text: response });
+        } catch (error) {
+            console.error(error);
+            // res.status(500).json({ error: "Erro ao processar a requisição" });
+            res.status(200).json({ text: "Profissionalismo, qualidade e agilidade são os meus principais valores. Estou pronto para conversar e impulsionar suas ideias! 🚀" });
+        }
+    } else {
+        // res.status(405).json({ error: "Método não permitido" });
+        res.status(405).json({ text: "Profissionalismo, qualidade e agilidade são os meus principais valores. Estou pronto para conversar e impulsionar suas ideias! 🚀" });
     }
+}
 
+async function gptRequest(messages: any[], type?: string, model?: string) {
     try {
-        // Iniciar o stream da OpenAI
-        const { message } = req.body;
-        const completion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: message }],
-            max_tokens: 250,
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: model || 'gpt-4-turbo-preview',
+                messages: messages,
+                max_tokens: 3500,
+                response_format: { type: type || 'text' }
+            })
         });
 
-        res.status(200).json({ message: completion.choices[0].message.content || '' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).end('Internal Server Error');
+        const data = await response.json();
+        return data.choices[0].message.content || 'Profissionalismo, qualidade e agilidade são os meus principais valores. Estou pronto para conversar e impulsionar suas ideias! 🚀';
+    } catch (err) {
+        console.error(err);
+        return "Profissionalismo, qualidade e agilidade são os meus principais valores. Estou pronto para conversar e impulsionar suas ideias! 🚀";
     }
 }

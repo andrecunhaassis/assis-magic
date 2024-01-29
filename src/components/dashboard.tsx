@@ -49,7 +49,7 @@ export function Dashboard({ userData, opportunity, onShowSummaryOpportunity, onS
         </div>
         <div className="flex flex-col items-center justify-center w-20 h-20 min-w-20 min-h-20">
           <img
-            src={`https://corsproxy.io/?${userData?.img}`}
+            src={`/api/image-proxy/${encodeURIComponent(userData?.img!)}`}
             alt={userData?.name}
             className="w-20 h-20 rounded-lg"
             crossOrigin="anonymous"
